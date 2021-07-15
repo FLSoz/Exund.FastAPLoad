@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using UnityEngine;
-using Harmony;
+using HarmonyLib;
 
 namespace Exund.FastAPLoad
 {
@@ -33,7 +33,7 @@ namespace Exund.FastAPLoad
 
         public static void Load()
         {
-            var harmony = HarmonyInstance.Create("Exund.FastAPLoad");
+            var harmony = new Harmony("Exund.FastAPLoad");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
 
 #if DEBUG
