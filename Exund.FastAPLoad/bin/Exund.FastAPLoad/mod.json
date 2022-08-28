@@ -1,9 +1,0 @@
-{
-    "Id": "Exund.FastAPLoad",
-    "DisplayName": "Fast AP Load",
-    "Author": "Exund",
-    "Version": "1.0.0",
-    "Enable": true,
-    "AssemblyName": "Exund.FastAPLoad.dll",
-    "EntryMethod": "Exund.FastAPLoad.FastAPLoadMod.Load"
-}

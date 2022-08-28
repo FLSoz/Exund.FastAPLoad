@@ -8,7 +8,7 @@ using HarmonyLib;
 
 namespace Exund.FastAPLoad
 {
-    public class FastAPLoadMod
+    public class FastAPLoadMod : ModBase
     {
         static BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
         static readonly Type T_BlockPlacementCollector = typeof(BlockPlacementCollector);
@@ -22,6 +22,34 @@ namespace Exund.FastAPLoad
         static readonly Type T_List_QueryPosition = typeof(List<>).MakeGenericType(T_QueryPosition);
         static readonly MethodInfo LQP_Add = T_List_QueryPosition.GetMethod("Add");
 
+        internal const string HarmonyID = "Exund.FastAPLoad";
+        internal static Harmony harmony = new Harmony(HarmonyID);
+
+        private static bool Inited = false;
+        public override void EarlyInit()
+        {
+            if (!Inited)
+            {
+                Inited = true;
+                Load();
+            }
+        }
+
+        public override bool HasEarlyInit()
+        {
+            return true;
+        }
+
+        public override void Init()
+        {
+            harmony.PatchAll(Assembly.GetExecutingAssembly());
+        }
+
+        public override void DeInit()
+        {
+            harmony.UnpatchAll(HarmonyID);
+        }
+
 #if DEBUG
         public static bool UseModded = true;
         public static long debug_ms;
@@ -33,9 +61,6 @@ namespace Exund.FastAPLoad
 
         public static void Load()
         {
-            var harmony = new Harmony("Exund.FastAPLoad");
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
-
 #if DEBUG
             GameObject holder = new GameObject();
             holder.AddComponent<Debug>();
